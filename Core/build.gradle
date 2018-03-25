@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':CWM')
+    compile files('libs/jdm11.jar')
+}
