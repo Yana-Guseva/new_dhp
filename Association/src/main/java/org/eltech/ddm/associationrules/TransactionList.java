@@ -1,48 +1,20 @@
 package org.eltech.ddm.associationrules;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import org.eltech.ddm.miningcore.MiningException;
+import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 
-public class TransactionList extends ArrayList<Transaction> {
+import java.util.List;
+
+public class TransactionList extends HashMapMiningModelElement {
 	private static final long serialVersionUID = 1L;
 
-	//private TransactionList root;
-	//private ItemSets inBetweenItemsets = new ItemSets();
-
-	public TransactionList() {
-
-	}
-
-	public TransactionList(Collection<Transaction> collection) {
-		super(collection);
-	}
-
-//	public TransactionList getRoot() {
-//		return root;
-//	}
-//
-//	public void setRoot(TransactionList root) {
-//		this.root = root;
-//	}
-//
-//	public ItemSets getInBetweenItemsets() {
-//		return inBetweenItemsets;
-//	}
-//
-//	public void setInBetweenItemsets(ItemSets inBetweenItemsets) {
-//		this.inBetweenItemsets = inBetweenItemsets;
-//	}
-
-	public void print() {
-		System.out.println("TID | Items");
-		for(Transaction transaction : this) {
-			System.out.println("  " + transaction.getTID() + " | " + transaction.getItemIDList());
-		}
+	public TransactionList(String id) {
+		super(id);
 	}
 
 	public boolean containsTransaction(String tid) {
-		for(Transaction transaction : this) {
-			if(transaction.getTID().equals(tid)) {
+		for(MiningModelElement transaction : super.set) {
+			if(transaction.getID().equals(tid)) {
 				return true;
 			}
 		}
@@ -51,17 +23,27 @@ public class TransactionList extends ArrayList<Transaction> {
 
 	public Transaction getTransaction(int index) {
 		if(size() > index)
-			return get(index);
+			return (Transaction) super.set.get(index);
 		else
 			return null;
 	}
 
 	public Transaction getTransaction(String tid) {
-		for(Transaction transaction : this) {
-			if(transaction.getTID().equals(tid)) {
-				return transaction;
+		for(MiningModelElement transaction : super.set) {
+			if(transaction.getID().equals(tid)) {
+				return (Transaction) transaction;
 			}
 		}
 		return null;
+	}
+
+	@Override
+	protected String propertiesToString() {
+		return null;
+	}
+
+	@Override
+	public void merge(List<MiningModelElement> elements) throws MiningException {
+
 	}
 }

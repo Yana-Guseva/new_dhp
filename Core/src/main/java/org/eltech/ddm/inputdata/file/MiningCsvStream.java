@@ -9,7 +9,7 @@ import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningdata.*;
 import org.omg.java.cwm.analysis.datamining.miningcore.miningdata.AttributeType;
 
-import javax.datamining.data.AttributeDataType;
+import javax.datamining.data.AttributeDataType;e
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;

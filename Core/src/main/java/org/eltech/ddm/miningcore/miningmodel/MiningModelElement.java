@@ -76,6 +76,17 @@ abstract public class MiningModelElement implements Cloneable { // , Iterable<Mi
         set.add(element);
     }
 
+    public MiningModelElement getElement(String id) {
+        if (set != null) {
+            for (MiningModelElement elem : set) {
+                if (id.equals(elem.getID())) {
+                    return elem;
+                }
+            }
+        }
+        return null;
+    }
+
 //    synchronized void insert(int pos, MiningModelElement element){
 //        set.add(pos, element);
 //    }

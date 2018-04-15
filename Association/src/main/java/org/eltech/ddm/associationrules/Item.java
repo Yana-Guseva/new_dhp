@@ -1,16 +1,19 @@
 package org.eltech.ddm.associationrules;
 
+import org.eltech.ddm.miningcore.MiningException;
+import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item implements Comparable<Item>{
+public class Item extends MiningModelElement implements Comparable<Item>{
 	private String itemID;
-	private List<String> tidList = new ArrayList<String>();
+	private List<String> tidList = new ArrayList<>();
 	private int supportCount = 0;
 
 	public Item(String itemID) {
+		super(itemID);
 		this.itemID = itemID;
-
 	}
 
 	public void setItemID(String itemID) {
@@ -32,6 +35,11 @@ public class Item implements Comparable<Item>{
 	@Override
 	public String toString() {
 		return "itemId " + itemID ;
+	}
+
+	@Override
+	public void merge(List<MiningModelElement> elements) throws MiningException {
+
 	}
 
 	@Override
@@ -69,6 +77,11 @@ public class Item implements Comparable<Item>{
 		}
 
 		return o;
+	}
+
+	@Override
+	protected String propertiesToString() {
+		return "itemId " + itemID;
 	}
 
 

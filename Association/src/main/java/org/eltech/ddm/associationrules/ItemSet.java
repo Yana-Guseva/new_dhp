@@ -1,17 +1,24 @@
 package org.eltech.ddm.associationrules;
 
+import org.eltech.ddm.miningcore.MiningException;
+import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class ItemSet {
+public class ItemSet extends MiningModelElement {
 	private List<String> itemIDList = new ArrayList<String>();
 	private Set<String> tidList = new HashSet<String>();
 	private int supportCount = 0;
 
 	public ItemSet(Item... items) {
+		super(Stream.of(items).map(Item::getItemID)
+				.collect(Collectors.joining(", ")));
 		for(Item item : items) {
 			addItem(item);
 		}
@@ -24,13 +31,6 @@ public class ItemSet {
 //		}
 //		Collections.sort(this.itemIDList);
 //	}
-
-	public ItemSet(List<String> itemIDs) {
-		for(String itemID : itemIDs) {
-			itemIDList.add(itemID);
-		}
-		Collections.sort(this.itemIDList);
-	}
 
 	public void addItem(Item item) {
 		itemIDList.add(item.getItemID());
@@ -46,6 +46,15 @@ public class ItemSet {
 		}
 		Collections.sort(itemIDList);
 	}
+
+    public ItemSet(String id, List<String> itemIDs) {
+        super(id);
+        StringBuilder sb = new StringBuilder();
+        for(String itemID : itemIDs) {
+            itemIDList.add(itemID);
+        }
+        Collections.sort(this.itemIDList);
+    }
 
 	public List<String> getItemIDList() {
 		return itemIDList;
@@ -67,10 +76,15 @@ public class ItemSet {
 //	public void setTidList(List<Integer> tidList) {
 //		this.	tidList = tidList;
 //	}
+//
+//	@Override
+//	public String toString() {
+//		return "items " + itemIDList + ", 	tidList" + tidList ;
+//	}
 
 	@Override
-	public String toString() {
-		return "items " + itemIDList + ", 	tidList" + tidList ;
+	public void merge(List<MiningModelElement> elements) throws MiningException {
+
 	}
 
 	@Override
@@ -115,6 +129,10 @@ public class ItemSet {
 		return o;
 	}
 
+	@Override
+	protected String propertiesToString() {
+		return null;
+	}
 
 
 }

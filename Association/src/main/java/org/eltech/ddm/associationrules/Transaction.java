@@ -1,19 +1,24 @@
 package org.eltech.ddm.associationrules;
 
+import org.eltech.ddm.miningcore.MiningException;
+import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Transaction {
+public class Transaction extends MiningModelElement {
 	protected String tid;
 	protected List<String> itemIDList = new ArrayList<String>();
 
-	public Transaction() {
-
+	public Transaction(String tid)   {
+		super(tid);
+		this.tid = tid;
 	}
 
-	public Transaction(String tid)   {
-		this.tid = tid;
+	@Override
+	protected String propertiesToString() {
+		return null;
 	}
 
 	public String getTID() {
@@ -35,5 +40,14 @@ public class Transaction {
 	@Override
 	public String toString() {
 		return "tid = " + tid + ", " + itemIDList;
+	}
+
+	@Override
+	public void merge(List<MiningModelElement> elements) throws MiningException {
+
+	}
+
+	public void addItem(Item element) {
+		super.add(element);
 	}
 }

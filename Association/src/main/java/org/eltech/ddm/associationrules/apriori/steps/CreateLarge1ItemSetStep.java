@@ -1,22 +1,20 @@
 package org.eltech.ddm.associationrules.apriori.steps;
 
-import org.eltech.ddm.associationrules.AssociationRulesFunctionSettings;
-import org.eltech.ddm.associationrules.AssociationRulesMiningModel;
-import org.eltech.ddm.associationrules.Item;
-import org.eltech.ddm.associationrules.ItemSet;
-import org.eltech.ddm.associationrules.ItemSets;
-import org.eltech.ddm.associationrules.Transaction;
-import org.eltech.ddm.associationrules.TransactionList;
+import org.eltech.ddm.associationrules.*;
 import org.eltech.ddm.associationrules.apriori.AprioriMiningModel;
+import org.eltech.ddm.associationrules.dhp.DHPModel;
 import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.miningcore.MiningException;
-import org.eltech.ddm.miningcore.algorithms.Step;
+import org.eltech.ddm.miningcore.algorithms.MiningBlock;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
-import org.omg.java.cwm.analysis.datamining.miningcore.miningfunctionsettings.MiningFunctionSettings;
-import org.omg.java.cwm.analysis.datamining.miningcore.miningmodel.MiningModel;
+import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 
-public class CreateLarge1ItemSetStep extends Step {
+import java.util.List;
+
+import static org.eltech.ddm.miningcore.miningmodel.EMiningModel.index;
+
+public class CreateLarge1ItemSetStep extends MiningBlock {
 
 	final protected double minSupport;
 
@@ -27,39 +25,59 @@ public class CreateLarge1ItemSetStep extends Step {
 
 	@Override
 	protected EMiningModel execute(MiningInputStream inputData, EMiningModel model) throws MiningException {
-		TransactionList transactionList = ((AprioriMiningModel) model).getTransactionList();
+		DHPModel modelA = (DHPModel) model;
+		HashMapMiningModelElement hashTable = modelA.getHashTable(modelA.getCurrentHashTableIndex() + 1);
+		if (hashTable == null) {
+            hashTable = new HashMapMiningModelElement(String.valueOf(modelA.getCurrentHashTableIndex() + 1)) {
+                @Override
+                protected String propertiesToString() {
+                    return "";
+                }
 
-		AprioriMiningModel modelA = (AprioriMiningModel) model;
+                @Override
+                public void merge(List<MiningModelElement> elements) throws MiningException {
 
-		ItemSets oneItemsets = null;
-		if(modelA.getLargeItemSetsList().size() == 0){
-			oneItemsets = new ItemSets();
-			modelA.getLargeItemSetsList().add(oneItemsets);
-		} else
-			oneItemsets = modelA.getLargeItemSetsList().get(0);
-
-		Transaction transaction = transactionList.get(modelA.getCurrentTransaction());
-			//	(Integer)getStateParameter(model, AssociationRulesMiningModel.NAME_CURRENT_TRANSACTION));
-		String itemID = transaction.getItemIDList().get(modelA.getCurrentItem());
-				//(Integer)getStateParameter(model, AssociationRulesMiningModel.NAME_CURRENT_ITEM));
-		Item item = modelA.getItem(itemID);
-
+                }
+            };
+            model.addElement(index(DHPModel.HASH_TABLE_SET), hashTable);
+		}
+//		if (hashTable.size() == 0) {
+//            modelA.addElement(index(DHPModel.HASH_TABLE_SET, 0), new ItemSets("1"));
+//        }
+		Item item = modelA.getItem(modelA.getCurrentTransactionIndex(), modelA.getCurrentItemIndex());
 		double supp = calcSupport(item, modelA);
 		if(supp >= minSupport){
-			ItemSet oneItemSet = new ItemSet(item);
-			oneItemSet.setSupportCount(item.getSupportCount());
-			if(oneItemsets.contains(oneItemSet))
-				oneItemsets.remove(oneItemSet);
-			oneItemsets.add(oneItemSet);
+            ItemSet itemSet = (ItemSet) hashTable.getElement(item.getID());
+            if (itemSet == null) {
+                itemSet = new ItemSet(item);
+                hashTable.put(item.getID(), itemSet);
+            }
+            itemSet.setSupportCount(item.getSupportCount());
 		}
+
+//        MiningModelElement largeItemSetsSet = modelA.getElement(index(AprioriMiningModel.LARGE_ITEM_SETS_SET));
+//        if (largeItemSetsSet.size() == 0) {
+//            modelA.addElement(index(AprioriMiningModel.LARGE_ITEM_SETS_SET), new ItemSets("0"));
+//        }
+//        ItemSets oneItemsets = (ItemSets) modelA.getElement(index(AprioriMiningModel.LARGE_ITEM_SETS_SET, 0));
+//        Item item = modelA.getItem(modelA.getCurrentTransactionIndex(), modelA.getCurrentItemIndex());
+//		double supp = calcSupport(item, modelA);
+//        if(supp >= minSupport){
+//			ItemSet oneItemSet = new ItemSet(item);
+//			oneItemSet.setSupportCount(item.getSupportCount());
+//			if(oneItemsets.contains(oneItemSet))
+//				oneItemsets.remove(oneItemSet);
+//			modelA.addElement(index(AprioriMiningModel.LARGE_ITEM_SETS_SET, 0), oneItemSet);
+//		}
 
  		return modelA;
 	}
 
 
-	protected double calcSupport(Item item, AprioriMiningModel modelA) {
+	protected double calcSupport(Item item, AprioriMiningModel modelA) throws MiningException {
 		// TODO Auto-generated method stub
-		return ((double)item.getSupportCount())/((double)modelA.getTransactionCount());
+		return ((double)item.getSupportCount()) /
+                ((double)modelA.getElement(index(AssociationRulesMiningModel.TRANSACTION_LIST_SET)).size());
 	}
 
 }

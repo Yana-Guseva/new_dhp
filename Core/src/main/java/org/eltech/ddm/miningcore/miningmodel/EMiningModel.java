@@ -40,7 +40,7 @@ public abstract class EMiningModel extends MiningModel implements  Cloneable  //
 	protected  ArrayList<MiningModelElement> sets;
 
 	// Map of current elements indexes
-	private Map<String, Integer> currents;
+    protected Map<String, Integer> currents;
 
 	// Number of  mining vectors in input mining stream
 	private int numberVectors = 0;

@@ -42,6 +42,9 @@ public class MiningLoopVectors extends MiningLoop {
 
 	@Override
 	protected boolean conditionLoop(EMiningModel model) throws MiningException {
+		if (model.getCurrentVectorIndex() % 1000000 == 0) {
+			System.out.println("1000000 rows are processed");
+		}
 		if(countElement < 0)
     		return (model.getCurrentVectorIndex() < model.getNumberVectors());
 		else {
