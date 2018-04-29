@@ -68,7 +68,10 @@ public class PruneTransactionListStep extends MiningBlock {
             StringBuilder sb = new StringBuilder(elements.size());
             elements.stream()
                     .sorted()
-                    .forEach(sb::append);
+                    .forEach(e -> {
+                        sb.append(e);
+                        sb.append(";");
+                    });
             String key = sb.toString();
             if (map.containsKey(key)) {
                 return false;

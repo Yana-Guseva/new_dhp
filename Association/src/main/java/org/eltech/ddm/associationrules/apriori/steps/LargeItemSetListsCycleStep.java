@@ -7,13 +7,14 @@ import org.eltech.ddm.miningcore.algorithms.MiningLoop;
 import org.eltech.ddm.miningcore.algorithms.MiningSequence;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
+import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 
 import static org.eltech.ddm.associationrules.dhp.DHPModel.HASH_TABLE_SET;
 import static org.eltech.ddm.miningcore.miningmodel.EMiningModel.index;
 
 public class LargeItemSetListsCycleStep extends MiningLoop {
 
-    private final int[] indexSet = {HASH_TABLE_SET};
+    private int[] indexSet = {HASH_TABLE_SET};
 
     private final int startPosition;
 
@@ -40,6 +41,14 @@ public class LargeItemSetListsCycleStep extends MiningLoop {
         iteration = block;
     }
 
+    public LargeItemSetListsCycleStep(EMiningFunctionSettings settings, int[] index, int startPos, int countElement, MiningSequence block) throws MiningException {
+        super(settings);
+        this.indexSet = index;
+        startPosition = startPos;
+        this.countElement = countElement;
+        iteration = block;
+    }
+
     @Override
     protected EMiningModel initLoop(EMiningModel model) throws MiningException {
         model.setCurrentElement(indexSet, startPosition);
@@ -48,8 +57,8 @@ public class LargeItemSetListsCycleStep extends MiningLoop {
 
     @Override
     protected boolean conditionLoop(EMiningModel model) throws MiningException {
-        System.out.println(model.getElement(index(DHPModel.HASH_TABLE_SET))
-                .getElement(((DHPModel) model).getCurrentHashTableIndex()).size());
+//        System.out.println(model.getElement(index(DHPModel.HASH_TABLE_SET))
+//                .getElement(((DHPModel) model).getCurrentHashTableIndex()).size());
         if(countElement < 0) {
             return !model.currIsLastElement(indexSet)
                     && !isCurrentLargeItemSetEmpty((DHPModel) model);
@@ -72,8 +81,14 @@ public class LargeItemSetListsCycleStep extends MiningLoop {
     }
 
     private boolean isCurrentLargeItemSetEmpty(DHPModel model) throws MiningException {
-        return model.getElement(index(DHPModel.HASH_TABLE_SET))
-                .getElement(model.getCurrentHashTableIndex()).size() == 0;
+        MiningModelElement hashTable = model.getElement(index(DHPModel.HASH_TABLE_SET))
+                .getElement(model.getCurrentHashTableIndex() + 1);
+        return  hashTable == null ||  hashTable.size() == 0;
+    }
+
+
+    public int[] getIndexSet() {
+        return indexSet;
     }
 
 //    private boolean isCurrentLargeItemSetEmpty(AprioriMiningModel model) throws MiningException {

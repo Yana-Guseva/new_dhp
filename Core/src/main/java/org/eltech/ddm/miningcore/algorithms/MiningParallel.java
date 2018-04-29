@@ -102,7 +102,7 @@ public class MiningParallel extends MiningBlock {
         }
     }
 
-	private List<EMiningModel> fork(EMiningModel model)
+	protected List<EMiningModel> fork(EMiningModel model)
 			throws MiningException {
 
         ExecutionHandlerFactory handlerFactory = algorithmSettings.getEnvironment().getExecutionHandlerFactory();

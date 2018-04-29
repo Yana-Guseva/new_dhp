@@ -45,8 +45,8 @@ public class DHPAlgorithmTest {
         settings.setNormalizeLineEndingsWithinQuotes(true);
         settings.setReadInputOnSeparateThread(false);
 
-//        this.inputData = new MiningArffStream("../data/arff/association/" + "T_200" + ".arff");
-        this.inputData = new MiningCsvStream("test_1GB" + ".csv", settings);
+        this.inputData = new MiningArffStream("../data/arff/association/" + "T_200" + ".arff");
+//        this.inputData = new MiningCsvStream("transactions_small" + ".csv", settings);
 //        this.inputData = new MiningCsvStream("T_200" + ".csv", settings);
         createMiningSettings();
         // Create and tuning algorithm
@@ -79,8 +79,8 @@ public class DHPAlgorithmTest {
         miningSettings = new AssociationRulesFunctionSettings(logicalData);
         miningSettings.setTransactionIDsArributeName("transactId");
         miningSettings.setItemIDsArributeName("itemId");
-        miningSettings.setMinConfidence(0.1);
-        miningSettings.setMinSupport(0.1);
+        miningSettings.setMinConfidence(0.01);
+        miningSettings.setMinSupport(0.01);
         miningSettings.setAlgorithmSettings(algorithmSettings);
         miningSettings.verify();
     }

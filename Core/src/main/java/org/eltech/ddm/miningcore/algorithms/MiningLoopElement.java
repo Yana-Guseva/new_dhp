@@ -65,7 +65,7 @@ public class MiningLoopElement extends MiningLoop {
 		return model;
 	}
 
-	int[] getIndexSet() {
+	public int[] getIndexSet() {
 		return indexSet;
 	}
 

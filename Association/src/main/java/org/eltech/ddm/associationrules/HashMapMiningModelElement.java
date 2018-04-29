@@ -3,12 +3,16 @@ package org.eltech.ddm.associationrules;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HashMapMiningModelElement extends MiningModelElement {
 
     private HashMap<String, Integer> map;
+    private List<String> getAllKeyElements;
 
     public HashMapMiningModelElement(String id) {
         super(id);
@@ -22,7 +26,7 @@ public class HashMapMiningModelElement extends MiningModelElement {
 
     @Override
     public void merge(List<MiningModelElement> elements) throws MiningException {
-
+        System.out.println("merge");
     }
 
     public MiningModelElement getElement(String key) {
@@ -63,4 +67,18 @@ public class HashMapMiningModelElement extends MiningModelElement {
         super.set = newSet;
     }
 
+    public List<String> getAllKeyElements() {
+        if (getAllKeyElements == null) {
+            getAllKeyElements = new ArrayList<>();
+            map.keySet().stream().map(s -> s.split(";")).collect(Collectors.toList()).forEach(s -> getAllKeyElements.addAll(Arrays.asList(s)));
+        }
+        return getAllKeyElements;
+    }
+
+//    @Override
+//    public Object clone() {
+//        Object clone = super.clone();
+//        System.out.println("cloned");
+//        return clone;
+//    }
 }

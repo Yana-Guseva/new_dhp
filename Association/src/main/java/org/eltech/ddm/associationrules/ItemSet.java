@@ -110,25 +110,6 @@ public class ItemSet extends MiningModelElement {
 		this.supportCount = supportCount;
 	}
 
-	public Object clone() {
-		ItemSet o = new ItemSet();
-
-		if(itemIDList != null){
-			o.itemIDList = new ArrayList<String>();
-			for(String itemID: itemIDList)
-				o.itemIDList.add(new String(itemID));
-		}
-
-		if(tidList != null){
-			o.tidList = new HashSet<String>();
-			for(String id: tidList)
-				o.tidList.add(new String(id));
-			o.supportCount = supportCount ;
-		}
-
-		return o;
-	}
-
 	@Override
 	protected String propertiesToString() {
 		return null;

@@ -12,8 +12,8 @@ import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 
 import static org.eltech.ddm.miningcore.miningmodel.EMiningModel.index;
 
-public class DHPAlgorithm extends MiningAlgorithm {
-    public DHPAlgorithm(EMiningFunctionSettings miningSettings) throws MiningException {
+public class DHPAlgorithmParallel extends DHPAlgorithm {
+    public DHPAlgorithmParallel(EMiningFunctionSettings miningSettings) throws MiningException {
         super(miningSettings);
     }
 
@@ -35,11 +35,12 @@ public class DHPAlgorithm extends MiningAlgorithm {
                                 new CreateLarge1ItemSetStep(miningSettings))),
                 new MiningLoopElement(miningSettings, index(AssociationRulesMiningModel.INDEX_TRANSACTION_LIST_SET),
                         new CreateHashTable(miningSettings)),
-                new LargeItemSetListsCycleStep(miningSettings,
-                        new PruningStep(miningSettings),
-                        new MiningLoopElement(miningSettings, index(AssociationRulesMiningModel.INDEX_TRANSACTION_LIST_SET),
-                                new PruneTransactionListStep(miningSettings),
-                                new IsThereCurrentTransaction(miningSettings, new CreateHashTable(miningSettings)))),
+                new DHPMiningParallel(miningSettings, MemoryType.distributed,
+                        new LargeItemSetListsCycleStep(miningSettings,
+                                new PruningStep(miningSettings),
+                                new MiningLoopElement(miningSettings, index(AssociationRulesMiningModel.INDEX_TRANSACTION_LIST_SET),
+                                        new PruneTransactionListStep(miningSettings),
+                                        new IsThereCurrentTransaction(miningSettings, new CreateHashTable(miningSettings))))),
                 new LargeItemSetListsCycleStep(miningSettings, 1,
                         new KLargeItemSetsCycleStep(miningSettings, index(DHPModel.INDEX_CURRENT_LARGE_ITEM_SET),
                                 new LargeItemSetItemsCycleStep(miningSettings, index(DHPModel.INDEX_CURRENT_ITEM_LARGE_ITEM_SET),
@@ -47,5 +48,4 @@ public class DHPAlgorithm extends MiningAlgorithm {
 
         blocks.addListenerExecute(new BlockExecuteTimingListner());
     }
-
 }

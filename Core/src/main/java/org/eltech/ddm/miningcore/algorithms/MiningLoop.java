@@ -76,7 +76,7 @@ public abstract class MiningLoop extends MiningBlock implements Cloneable, Seria
 		/**
          * @return the iteration
          */
-	MiningSequence getIteration() {
+		public MiningSequence getIteration() {
 		return iteration;
 	}
 

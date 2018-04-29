@@ -34,6 +34,7 @@ public class CreateHashTable extends MiningBlock {
         Transaction transaction = modelA.getTransaction(modelA.getCurrentTransactionIndex());
         int curLargeItemsetIdx = modelA.getCurrentHashTableIndex() + 2;
         HashMapMiningModelElement hashTable = modelA.getHashTable(curLargeItemsetIdx);
+        HashMapMiningModelElement largeItemSets = modelA.getHashTable(curLargeItemsetIdx - 1);
         if (hashTable == null) {
             hashTable = new HashMapMiningModelElement(String.valueOf(curLargeItemsetIdx)) {
                 @Override
@@ -48,16 +49,18 @@ public class CreateHashTable extends MiningBlock {
             };
             model.addElement(index(DHPModel.HASH_TABLE_SET), hashTable);
         }
-        System.out.println(curLargeItemsetIdx + 1 + " " + "generate from " + transaction.getID());
-        getTransactionSubsets(hashTable, transaction, curLargeItemsetIdx + 1);
+        getTransactionSubsets(hashTable, largeItemSets, transaction, curLargeItemsetIdx + 1);
         return modelA;
     }
 
-    public void getTransactionSubsets(HashMapMiningModelElement hashTable, Transaction transaction, int k) {
+    public void getTransactionSubsets(HashMapMiningModelElement hashTable,
+                                      HashMapMiningModelElement largeItemSets, Transaction transaction, int k) {
         List<String> transactionItemIDList = transaction.getItemIDList();
+        transactionItemIDList.retainAll(largeItemSets.getAllKeyElements());
         if (transactionItemIDList.size() < k) {
             return;
         }
+        System.out.println(k+ " " + "generate from " + transaction.getID());
 
         int indexes[] = new int[k];
         for (int i = 0; i < indexes.length; i++) {
@@ -73,7 +76,10 @@ public class CreateHashTable extends MiningBlock {
             StringBuilder sb = new StringBuilder(elements.size());
             elements.stream()
                     .sorted()
-                    .forEach(sb::append);
+                    .forEach(e -> {
+                        sb.append(e);
+                        sb.append(";");
+                    });
             String key = sb.toString();
             ItemSet itemSet = (ItemSet) hashTable.getElement(key);
             if (itemSet == null) {
