@@ -5,14 +5,13 @@ import org.eltech.ddm.associationrules.HashMapMiningModelElement;
 import org.eltech.ddm.associationrules.apriori.AprioriMiningModel;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
-import org.omg.java.cwm.analysis.datamining.miningcore.miningmodel.MiningModel;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class DHPModel extends AprioriMiningModel implements Cloneable {
 
-    public final static int HASH_TABLE_SET = 5;
+    public final static int HASH_TABLE_SET = 4;
     public final static int[] INDEX_HASH_TABLE_SET = {HASH_TABLE_SET};
     public static final int[] INDEX_CURRENT_LARGE_ITEM_SET = {HASH_TABLE_SET, CURRENT_ITEM};
     public static final int[] INDEX_CURRENT_ITEM_LARGE_ITEM_SET = {HASH_TABLE_SET, CURRENT_ITEM, CURRENT_ITEM};

@@ -27,7 +27,7 @@ public class DHPMiningParallel extends MiningParallel {
 
             int startPos = 0;
             {
-                int[] index = ((LargeItemSetListsCycleStep) block).getIndexSet();
+                int[] index = ((MiningLoopElement) block).getIndexSet();
                 MiningModelElement elem = model.getElement(index);
                 int countElement = elem.size() / handlersNumber;
                 int mod = elem.size() % handlersNumber;

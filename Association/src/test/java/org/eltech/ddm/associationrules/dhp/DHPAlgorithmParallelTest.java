@@ -12,7 +12,7 @@ import org.junit.Before;
 import static org.junit.Assert.fail;
 
 public class DHPAlgorithmParallelTest extends DHPModelTest {
-    private final int NUMBER_HANDLERS = 2;
+    private final int NUMBER_HANDLERS = 4;
 
     protected EMiningAlgorithmSettings algorithmSettings;
 

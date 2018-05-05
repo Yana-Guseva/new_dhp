@@ -28,17 +28,7 @@ public class CreateLarge1ItemSetStep extends MiningBlock {
 		DHPModel modelA = (DHPModel) model;
 		HashMapMiningModelElement hashTable = modelA.getHashTable(modelA.getCurrentHashTableIndex() + 1);
 		if (hashTable == null) {
-            hashTable = new HashMapMiningModelElement(String.valueOf(modelA.getCurrentHashTableIndex() + 1)) {
-                @Override
-                protected String propertiesToString() {
-                    return "";
-                }
-
-                @Override
-                public void merge(List<MiningModelElement> elements) throws MiningException {
-
-                }
-            };
+			hashTable = new HashTable(String.valueOf(modelA.getCurrentHashTableIndex() + 1));
             model.addElement(index(DHPModel.HASH_TABLE_SET), hashTable);
 		}
 //		if (hashTable.size() == 0) {

@@ -163,7 +163,7 @@ abstract public class MiningModelElement implements Cloneable { // , Iterable<Mi
      * @param elems - sets of mining models which are built by parallel functions
      * @throws MiningException
      */
-    void union(List<MiningModelElement> elems) throws MiningException {
+    public void union(List<MiningModelElement> elems) throws MiningException {
         // 1 merge all properties of this mining element
         merge(elems);
 

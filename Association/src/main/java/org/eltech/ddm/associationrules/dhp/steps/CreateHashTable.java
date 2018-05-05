@@ -1,6 +1,7 @@
 package org.eltech.ddm.associationrules.dhp.steps;
 
 import org.eltech.ddm.associationrules.HashMapMiningModelElement;
+import org.eltech.ddm.associationrules.HashTable;
 import org.eltech.ddm.associationrules.ItemSet;
 import org.eltech.ddm.associationrules.Transaction;
 import org.eltech.ddm.associationrules.dhp.DHPModel;
@@ -36,17 +37,7 @@ public class CreateHashTable extends MiningBlock {
         HashMapMiningModelElement hashTable = modelA.getHashTable(curLargeItemsetIdx);
         HashMapMiningModelElement largeItemSets = modelA.getHashTable(curLargeItemsetIdx - 1);
         if (hashTable == null) {
-            hashTable = new HashMapMiningModelElement(String.valueOf(curLargeItemsetIdx)) {
-                @Override
-                protected String propertiesToString() {
-                    return "";
-                }
-
-                @Override
-                public void merge(List<MiningModelElement> elements) throws MiningException {
-
-                }
-            };
+            hashTable = new HashTable(String.valueOf(curLargeItemsetIdx));
             model.addElement(index(DHPModel.HASH_TABLE_SET), hashTable);
         }
         getTransactionSubsets(hashTable, largeItemSets, transaction, curLargeItemsetIdx + 1);
@@ -60,7 +51,7 @@ public class CreateHashTable extends MiningBlock {
         if (transactionItemIDList.size() < k) {
             return;
         }
-        System.out.println(k+ " " + "generate from " + transaction.getID());
+//        System.out.println(k+ " " + "generate from " + transaction.getID());
 
         int indexes[] = new int[k];
         for (int i = 0; i < indexes.length; i++) {

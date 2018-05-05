@@ -36,28 +36,6 @@ public class PruningStep extends MiningBlock {
                     .collect(Collectors.toList());
             hashTable.setSet(largeItemSets);
         }
-
-//        HashMapMiningModelElement hashTable =
-//                (HashMapMiningModelElement) modelA.getElement(index(DHPModel.HASH_TABLE_SET, modelA.getCurrentLargeItemSetsIndex()));
-//
-//        if (modelA.getElement(index(AprioriMiningModel.LARGE_ITEM_SETS_SET)).size() <= (modelA.getCurrentLargeItemSetsIndex()) + 1) {
-//            ItemSets currItemsetList = new ItemSets(String.valueOf(modelA.getCurrentLargeItemSetsIndex() + 1));
-//            modelA.addElement(index(AprioriMiningModel.LARGE_ITEM_SETS_SET), currItemsetList);
-//        }
-//        if (hashTable != null) {
-//            double transCount = modelA.getTransactionCount();
-//            hashTable.getEntry().keySet().removeIf(e -> ((ItemSet) hashTable.getElement(e)).getSupportCount() / transCount < minSupport);
-////            hashTable.getEntry().entrySet().stream()
-////                    .filter(e -> (((ItemSet) hashTable.getElement(e.getKey())).getSupportCount() / transCount) >= minSupport)
-////                    .forEach(e -> {
-////                        try {
-////                            modelA.addElement(index(AprioriMiningModel.LARGE_ITEM_SETS_SET, modelA.getCurrentLargeItemSetsIndex() + 1),
-////                                    hashTable.getElement(e.getKey()));
-////                        } catch (MiningException e1) {
-////                            e1.printStackTrace();
-////                        }
-////                    });
-//        }
         return modelA;
     }
 }

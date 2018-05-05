@@ -11,8 +11,8 @@ public class AssociationRulesMiningModel extends EMiningModel {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static int TRANSACTION_LIST_SET = 1;
-	public final static int ITEM_SET = 2;
+	public final static int ITEM_SET = 1;
+	public final static int TRANSACTION_LIST_SET = 2;
 	public final static int ASSOCIATION_RULE_SET = 3;
 
     public final static int CURRENT_ITEM = -1;
@@ -31,7 +31,7 @@ public class AssociationRulesMiningModel extends EMiningModel {
 
 	public AssociationRulesMiningModel(AssociationRulesFunctionSettings settings) throws MiningException {
 		super(settings);
-        sets.add(TRANSACTION_LIST_SET, new HashMapMiningModelElement("transactionListSet") {
+        sets.add(ITEM_SET, new HashMapMiningModelElement("itemSet") {
             @Override
             protected String propertiesToString() {
                 return "";
@@ -42,7 +42,7 @@ public class AssociationRulesMiningModel extends EMiningModel {
 
             }
         });
-        sets.add(ITEM_SET, new HashMapMiningModelElement("itemSet") {
+        sets.add(TRANSACTION_LIST_SET, new HashMapMiningModelElement("transactionListSet") {
             @Override
             protected String propertiesToString() {
                 return "";
@@ -113,7 +113,9 @@ public class AssociationRulesMiningModel extends EMiningModel {
 	}
 
     public Item getItem(int transIndex, int itemIndex) throws MiningException {
-        return (Item) getElement(index(AssociationRulesMiningModel.TRANSACTION_LIST_SET, transIndex, itemIndex));
+        Transaction transaction = getTransaction(transIndex);
+        String itemId = transaction.getItemIDList().get(itemIndex);
+        return getItem(itemId);
     }
 
     public Transaction getTransaction(String transId) throws MiningException {

@@ -45,8 +45,8 @@ public class DHPAlgorithmTest {
         settings.setNormalizeLineEndingsWithinQuotes(true);
         settings.setReadInputOnSeparateThread(false);
 
-        this.inputData = new MiningArffStream("../data/arff/association/" + "T_200" + ".arff");
-//        this.inputData = new MiningCsvStream("transactions_small" + ".csv", settings);
+//        this.inputData = new MiningArffStream("../data/arff/association/" + "T_200" + ".arff");
+        this.inputData = new MiningCsvStream("transactions_1" + ".csv", settings);
 //        this.inputData = new MiningCsvStream("T_200" + ".csv", settings);
         createMiningSettings();
         // Create and tuning algorithm

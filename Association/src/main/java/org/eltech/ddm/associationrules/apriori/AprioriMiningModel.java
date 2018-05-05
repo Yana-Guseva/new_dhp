@@ -42,17 +42,17 @@ public class AprioriMiningModel extends AssociationRulesMiningModel {
 	public AprioriMiningModel(AssociationRulesFunctionSettings settings)
 			throws MiningException {
 		super(settings);
-		sets.add(LARGE_ITEM_SETS_SET, new MiningModelElement("largeItemSetsSet") {
-			@Override
-			protected String propertiesToString() {
-				return "";
-			}
-
-			@Override
-			public void merge(List<MiningModelElement> elements) throws MiningException {
-
-			}
-		});
+//		sets.add(LARGE_ITEM_SETS_SET, new MiningModelElement("largeItemSetsSet") {
+//			@Override
+//			protected String propertiesToString() {
+//				return "";
+//			}
+//
+//			@Override
+//			public void merge(List<MiningModelElement> elements) throws MiningException {
+//
+//			}
+//		});
 	}
 
 	public int getCurrentLargeItemSetsIndex() {

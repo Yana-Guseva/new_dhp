@@ -1,13 +1,16 @@
 package org.eltech.ddm.associationrules.dhp;
 
+import com.univocity.parsers.csv.CsvParserSettings;
 import org.eltech.ddm.associationrules.AssociationRulesFunctionSettings;
 import org.eltech.ddm.inputdata.MiningInputStream;
 import org.eltech.ddm.inputdata.file.MiningArffStream;
+import org.eltech.ddm.inputdata.file.MiningCsvStream;
 import org.eltech.ddm.miningcore.MiningException;
 import org.eltech.ddm.miningcore.miningdata.ELogicalData;
 import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningAlgorithmSettings;
 import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 import org.junit.Assert;
+import org.junit.Before;
 
 public class DHPModelTest {
     protected String dataSets[] = {"T_200", "T_2000", "T_20000", "I_5", "I_10", "I_15", "I_10_20", "I_10_30", "I_10_50"};
@@ -19,10 +22,15 @@ public class DHPModelTest {
     protected org.eltech.ddm.associationrules.apriori.dhp.DHPMiningModel miningModel;
     protected DHPModel  model;
 
-    // ==== Methods for data attributes Weather Nominal ===============
-    protected void setInputData() throws MiningException {
-        // Load input data
-        inputData = new MiningArffStream("../data/arff/association/T_200.arff");
+    @Before
+    public void setInputData() throws Exception {
+        CsvParserSettings settings = new CsvParserSettings();
+        settings.setDelimiterDetectionEnabled(true);
+        settings.setHeaderExtractionEnabled(true);
+        settings.setNormalizeLineEndingsWithinQuotes(true);
+        this.inputData = new MiningCsvStream("transactions_1" + ".csv", settings);
+//        this.inputData = new MiningArffStream("../data/arff/association/" + dataSets[0] + ".arff");
+
     }
 
     protected void setMiningSettings(EMiningAlgorithmSettings algorithmSettings) throws MiningException {

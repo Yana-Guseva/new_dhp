@@ -2,7 +2,6 @@ package org.eltech.ddm.associationrules.dhp.steps;
 
 import org.eltech.ddm.associationrules.AssociationRulesMiningModel;
 import org.eltech.ddm.associationrules.HashMapMiningModelElement;
-import org.eltech.ddm.associationrules.ItemSet;
 import org.eltech.ddm.associationrules.Transaction;
 import org.eltech.ddm.associationrules.dhp.DHPModel;
 import org.eltech.ddm.inputdata.MiningInputStream;
@@ -12,9 +11,7 @@ import org.eltech.ddm.miningcore.miningfunctionsettings.EMiningFunctionSettings;
 import org.eltech.ddm.miningcore.miningmodel.EMiningModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.eltech.ddm.miningcore.miningmodel.EMiningModel.index;
 

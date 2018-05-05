@@ -6,6 +6,8 @@ import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.eltech.ddm.miningcore.miningmodel.EMiningModel.index;
+
 
 public class Transaction extends MiningModelElement {
 	protected String tid;
@@ -49,5 +51,24 @@ public class Transaction extends MiningModelElement {
 
 	public void addItem(Item element) {
 		super.add(element);
+	}
+
+	@Override
+	public Object clone() {
+		Transaction o = new Transaction(getID());
+
+//		if(set != null){
+//			o.set = new ArrayList<>();
+//			for(MiningModelElement element : set)
+//				o.set.add(getElement(element.getID()));
+//		}
+		if (itemIDList != null) {
+			o.itemIDList = new ArrayList<>();
+			for (String id : itemIDList) {
+				o.itemIDList.add(id);
+			}
+		}
+		o.tid = tid;
+		return o;
 	}
 }

@@ -6,83 +6,82 @@ import org.eltech.ddm.miningcore.miningmodel.MiningModelElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item extends MiningModelElement implements Comparable<Item>{
-	private String itemID;
-	private List<String> tidList = new ArrayList<>();
-	private int supportCount = 0;
+public class Item extends MiningModelElement implements Comparable<Item> {
+    private String itemID;
+    private List<String> tidList = new ArrayList<>();
+    private int supportCount = 0;
 
-	public Item(String itemID) {
-		super(itemID);
-		this.itemID = itemID;
-	}
+    public Item(String itemID) {
+        super(itemID);
+        this.itemID = itemID;
+    }
 
-	public void setItemID(String itemID) {
-		this.itemID = itemID;
-	}
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
 
-	public String getItemID() {
-		return this.itemID;
-	}
+    public String getItemID() {
+        return this.itemID;
+    }
 
-	public List<String> getTidList() {
-		return tidList;
-	}
+    public List<String> getTidList() {
+        return tidList;
+    }
 
-	public void setTidList(List<String> tidList) {
-		this.tidList = tidList;
-	}
+    public void setTidList(List<String> tidList) {
+        this.tidList = tidList;
+    }
 
-	@Override
-	public String toString() {
-		return "itemId " + itemID ;
-	}
+    @Override
+    public String toString() {
+        return "itemId " + itemID;
+    }
 
-	@Override
-	public void merge(List<MiningModelElement> elements) throws MiningException {
+    @Override
+    public void merge(List<MiningModelElement> elements) throws MiningException {
+    }
 
-	}
+    @Override
+    public boolean equals(Object o) {
+        boolean equal = false;
+        if (((Item) o).getItemID().equals(itemID)) {
+            equal = true;
+        } else {
+            equal = false;
+        }
+        return equal;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		boolean equal = false;
-		if(((Item)o).getItemID().equals(itemID)) {
-			equal = true;
-		} else {
-			equal = false;
-		}
-		return equal;
-	}
+    public int getSupportCount() {
+        return supportCount;
+    }
 
-	public int getSupportCount() {
-		return supportCount;
-	}
+    public void setSupportCount(int supportCount) {
+        this.supportCount = supportCount;
+    }
 
-	public void setSupportCount(int supportCount) {
-		this.supportCount = supportCount;
-	}
+    @Override
+    public int compareTo(Item o) {
+        return itemID.compareTo(o.getItemID());
+    }
 
-	@Override
-	public int compareTo(Item o) {
-		return itemID.compareTo(o.getItemID());
-	}
+    public Object clone() {
+        Item o = (Item) super.clone();
 
-	public Object clone() {
-		Item o = new Item(new String(itemID));
+        if (tidList != null) {
+            o.tidList = new ArrayList<>();
+            for (String id : tidList)
+                o.tidList.add(id);
+        }
+        o.supportCount = supportCount;
 
-		if(tidList != null){
-			o.tidList = new ArrayList<String>();
-			for(String id: tidList)
-				o.tidList.add(new String(id));
-			o.supportCount = supportCount ;
-		}
+        return o;
+    }
 
-		return o;
-	}
-
-	@Override
-	protected String propertiesToString() {
-		return "itemId " + itemID;
-	}
+    @Override
+    protected String propertiesToString() {
+        return "itemId " + itemID;
+    }
 
 
 }
